@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explore Skills & Matches - SkillBridge</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="dashboard.html" class="brand-logo">
+                <div class="brand-icon">⚡</div>
+                <span>SkillBridge</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="explore.html" class="active">Explore Skills</a></li>
+                <li><a href="requests.html">Requests</a></li>
+                <li><a href="sessions.html">Sessions</a></li>
+                <li><a href="profile.html">My Profile</a></li>
+            </ul>
+            <div id="nav-user-area" class="nav-user"></div>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="page-header">
+            <div>
+                <h1 class="page-title">Discover & Match Skills</h1>
+                <p class="page-subtitle">Find peers with skills you want to learn or explore mutual skill exchange matches</p>
+            </div>
+        </div>
+
+        <!-- Navigation Tabs between Mutual Matches & All Skills Directory -->
+        <div class="tabs">
+            <button id="tab-mutual" class="tab-btn active" onclick="switchExploreTab('mutual')">
+                ✨ Mutual Exchange Matches
+            </button>
+            <button id="tab-all" class="tab-btn" onclick="switchExploreTab('all')">
+                🔍 All Offered Skills Directory
+            </button>
+        </div>
+
+        <!-- Search Bar (Shown in 'All' tab) -->
+        <div id="search-bar-container" style="display:none;margin-bottom:1.5rem;">
+            <div class="card" style="padding:1rem;">
+                <input type="text" id="search-input" class="form-control" placeholder="Search by skill name (e.g. Java, Python, Photoshop, SQL, Figma)...">
+            </div>
+        </div>
+
+        <!-- Section 1: Mutual Matches -->
+        <div id="mutual-matches-section">
+            <div class="grid grid-cols-2" id="matches-grid">
+                <!-- Dynamically populated by explore.js -->
+            </div>
+        </div>
+
+        <!-- Section 2: All Skills Directory -->
+        <div id="all-skills-section" style="display:none;">
+            <div class="grid grid-cols-3" id="skills-grid">
+                <!-- Dynamically populated by explore.js -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Send Learning Request Modal -->
+    <div id="request-modal" class="modal-overlay">
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <h3 class="modal-title">Send Learning Request</h3>
+                <button class="modal-close" onclick="closeRequestModal()">&times;</button>
+            </div>
+            <form onsubmit="submitLearningRequest(event)">
+                <input type="hidden" id="modal-receiver-id">
+                
+                <div style="background:#f1f5f9;padding:0.75rem;border-radius:var(--radius-sm);margin-bottom:1rem;">
+                    Sending request to: <strong id="modal-receiver-name">Student</strong>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="modal-skill-to-learn">Skill You Want To Learn *</label>
+                    <input type="text" id="modal-skill-to-learn" class="form-control" readonly required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="modal-skill-offered">Skill You Can Teach In Return (Exchange)</label>
+                    <select id="modal-skill-offered" class="form-control">
+                        <!-- Populated with current user's teach skills -->
+                    </select>
+                    <small style="color:var(--text-muted);font-size:0.75rem;">Offering a skill makes your request 3x more likely to be accepted!</small>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="modal-message">Personal Message / Note</label>
+                    <textarea id="modal-message" class="form-control" rows="3" placeholder="Introduce yourself and propose a topic or weekly time..."></textarea>
+                </div>
+
+                <div style="display:flex;justify-content:flex-end;gap:0.5rem;margin-top:1.25rem;">
+                    <button type="button" class="btn btn-secondary btn-sm" onclick="closeRequestModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary btn-sm">Send Request</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <p>SkillBridge &copy; 2026 &bull; Student Skill Exchange Platform</p>
+    </footer>
+
+    <script src="js/api.js"></script>
+    <script src="js/explore.js"></script>
+</body>
+</html>

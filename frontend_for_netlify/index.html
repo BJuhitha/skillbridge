@@ -1,0 +1,591 @@
+<!-- Netlify Ready Frontend for SkillBridge -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkillBridge – Peer-to-Peer Student Skill Exchange</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Top Announcement Bar for Demo / Viva Testing -->
+    <div class="demo-banner">
+        <div class="container banner-inner">
+            <span><i class="fa-solid fa-graduation-cap"></i> <strong>SkillBridge Demo Mode:</strong> Quick switch active student profile:</span>
+            <div class="quick-user-select" id="demoUserSwitcher"></div>
+        </div>
+    </div>
+
+    <!-- Navigation Header -->
+    <header class="navbar">
+        <div class="container nav-container">
+            <div class="brand" onclick="app.showTab('dashboard')">
+                <div class="brand-icon"><i class="fa-solid fa-bolt"></i></div>
+                <div>
+                    <span class="brand-title">SkillBridge</span>
+                    <span class="brand-subtitle">Student Skill Exchange</span>
+                </div>
+            </div>
+
+            <nav class="nav-links">
+                <button class="nav-item active" onclick="app.showTab('dashboard')"><i class="fa-solid fa-chart-pie"></i> Dashboard</button>
+                <button class="nav-item" onclick="app.showTab('search')"><i class="fa-solid fa-compass"></i> Explore Skills</button>
+                <button class="nav-item highlight-nav" onclick="app.showTab('matches')"><i class="fa-solid fa-handshake-simple"></i> Mutual Barter <span class="badge" id="navMatchCount">0</span></button>
+                <button class="nav-item" onclick="app.showTab('requests')"><i class="fa-solid fa-paper-plane"></i> Requests <span class="badge" id="navRequestCount">0</span></button>
+                <button class="nav-item" onclick="app.showTab('sessions')"><i class="fa-solid fa-calendar-check"></i> Sessions</button>
+                <button class="nav-item" onclick="app.showTab('profile')"><i class="fa-solid fa-user"></i> My Profile</button>
+            </nav>
+
+            <div class="nav-actions">
+                <div class="user-badge" id="currentUserBadge" onclick="app.showTab('profile')">
+                    <img id="navAvatar" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100" alt="Avatar" class="avatar-sm">
+                    <div class="user-info-text">
+                        <span class="user-name" id="navUserName">Alex Morgan</span>
+                        <span class="user-dept" id="navUserDept">Computer Science</span>
+                    </div>
+                </div>
+                <button class="btn btn-outline btn-sm" onclick="app.openAuthModal()"><i class="fa-solid fa-arrow-right-from-bracket"></i> Switch / Login</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main App Container -->
+    <main class="container main-content">
+        <!-- TAB 1: DASHBOARD -->
+        <section id="tab-dashboard" class="tab-pane active">
+            <div class="hero-card">
+                <div class="hero-text">
+                    <div class="badge-pill"><i class="fa-solid fa-seedling"></i> Peer-to-Peer Learning Network</div>
+                    <h1 id="heroGreeting">Welcome back, Alex!</h1>
+                    <p id="heroSubtext">Share your knowledge with fellow students and learn new skills in exchange. No tuition fees, just peer collaboration.</p>
+                    <div class="hero-actions">
+                        <button class="btn btn-primary" onclick="app.openAddSkillModal('TEACH')"><i class="fa-solid fa-plus"></i> Offer a Skill to Teach</button>
+                        <button class="btn btn-secondary" onclick="app.openAddSkillModal('LEARN')"><i class="fa-solid fa-bullseye"></i> Add Learning Goal</button>
+                        <button class="btn btn-glass" onclick="app.showTab('matches')"><i class="fa-solid fa-wand-magic-sparkles"></i> View Smart Matches</button>
+                    </div>
+                </div>
+                <div class="hero-stats-card">
+                    <div class="rating-box">
+                        <div class="rating-val" id="dashboardRating">4.9</div>
+                        <div class="rating-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i></div>
+                        <span class="rating-label">Peer Teaching Rating</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon icon-blue"><i class="fa-solid fa-chalkboard-user"></i></div>
+                    <div class="stat-details">
+                        <span class="stat-title">Skills I Teach</span>
+                        <h2 class="stat-number" id="statTeachingCount">0</h2>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon icon-purple"><i class="fa-solid fa-book-open-reader"></i></div>
+                    <div class="stat-details">
+                        <span class="stat-title">Learning Goals</span>
+                        <h2 class="stat-number" id="statLearningCount">0</h2>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon icon-amber"><i class="fa-solid fa-envelope-open-text"></i></div>
+                    <div class="stat-details">
+                        <span class="stat-title">Pending Requests</span>
+                        <h2 class="stat-number" id="statPendingRequests">0</h2>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon icon-green"><i class="fa-solid fa-calendar-days"></i></div>
+                    <div class="stat-details">
+                        <span class="stat-title">Scheduled Sessions</span>
+                        <h2 class="stat-number" id="statScheduledSessions">0</h2>
+                    </div>
+                </div>
+            </div>
+
+            <div class="split-grid">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title-group">
+                            <span class="badge badge-teal">Offered by You</span>
+                            <h3>Skills You Can Teach</h3>
+                        </div>
+                        <button class="btn btn-sm btn-outline" onclick="app.openAddSkillModal('TEACH')"><i class="fa-solid fa-plus"></i> Add</button>
+                    </div>
+                    <div class="card-body">
+                        <div id="dashboardTeachingList" class="skill-pill-list"></div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title-group">
+                            <span class="badge badge-purple">Your Learning Goals</span>
+                            <h3>Skills You Want to Learn</h3>
+                        </div>
+                        <button class="btn btn-sm btn-outline" onclick="app.openAddSkillModal('LEARN')"><i class="fa-solid fa-plus"></i> Add</button>
+                    </div>
+                    <div class="card-body">
+                        <div id="dashboardLearningList" class="skill-pill-list"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="split-grid mt-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Upcoming Scheduled Sessions</h3>
+                        <button class="btn btn-sm btn-link" onclick="app.showTab('sessions')">View All</button>
+                    </div>
+                    <div class="card-body" id="dashboardUpcomingSessions"></div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Recent Learning Requests</h3>
+                        <button class="btn btn-sm btn-link" onclick="app.showTab('requests')">Manage Requests</button>
+                    </div>
+                    <div class="card-body" id="dashboardRecentRequests"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 2: EXPLORE -->
+        <section id="tab-search" class="tab-pane">
+            <div class="section-header">
+                <div>
+                    <h2>Discover Student Skills & Mentors</h2>
+                    <p class="subtitle">Search for skills you want to learn or find peers seeking knowledge you can share.</p>
+                </div>
+            </div>
+
+            <div class="search-bar-card">
+                <div class="search-inputs">
+                    <div class="input-with-icon">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" id="skillSearchInput" placeholder="Search by skill name, student name, department (e.g. Java, Python, Figma, AI)..." onkeyup="app.filterPeers()">
+                    </div>
+                    <select id="skillCategoryFilter" onchange="app.filterPeers()">
+                        <option value="">All Categories</option>
+                    </select>
+                    <select id="skillTypeFilter" onchange="app.filterPeers()">
+                        <option value="TEACH">Students who can TEACH this</option>
+                        <option value="LEARN">Students who want to LEARN this</option>
+                    </select>
+                </div>
+                <div class="category-pills" id="categoryChips"></div>
+            </div>
+
+            <div class="results-meta">
+                <span id="peersCountLabel">Showing all peer offerings</span>
+            </div>
+            <div class="peers-grid" id="peersContainer"></div>
+        </section>
+
+        <!-- TAB 3: MUTUAL BARTER -->
+        <section id="tab-matches" class="tab-pane">
+            <div class="barter-hero">
+                <div class="barter-hero-icon"><i class="fa-solid fa-handshake-angle"></i></div>
+                <div class="barter-hero-content">
+                    <h2>Smart Mutual Exchange Matches</h2>
+                    <p>SkillBridge analyzes your skills and finds <strong>100% mutual barter pairs</strong>: A student who teaches what you want to learn, and wants to learn what you can teach. Win-win learning!</p>
+                </div>
+            </div>
+            <div class="matches-grid" id="mutualMatchesContainer"></div>
+        </section>
+
+        <!-- TAB 4: REQUESTS -->
+        <section id="tab-requests" class="tab-pane">
+            <div class="section-header">
+                <div>
+                    <h2>Learning Exchange Requests</h2>
+                    <p class="subtitle">Manage incoming invitations from peers and track requests you've sent.</p>
+                </div>
+            </div>
+            <div class="subnav-tabs">
+                <button class="subnav-btn active" onclick="app.showRequestSubTab('incoming')"><i class="fa-solid fa-inbox"></i> Incoming Requests (<span id="incomingBadgeCount">0</span>)</button>
+                <button class="subnav-btn" onclick="app.showRequestSubTab('outgoing')"><i class="fa-solid fa-paper-plane"></i> Sent Requests (<span id="outgoingBadgeCount">0</span>)</button>
+            </div>
+            <div id="subtab-incoming" class="request-subpane active">
+                <div class="requests-list" id="incomingRequestsContainer"></div>
+            </div>
+            <div id="subtab-outgoing" class="request-subpane">
+                <div class="requests-list" id="outgoingRequestsContainer"></div>
+            </div>
+        </section>
+
+        <!-- TAB 5: SESSIONS -->
+        <section id="tab-sessions" class="tab-pane">
+            <div class="section-header">
+                <div>
+                    <h2>Learning Sessions & History</h2>
+                    <p class="subtitle">Review your scheduled 1-on-1 peer sessions, join meeting links, and leave completion feedback.</p>
+                </div>
+                <button class="btn btn-primary" onclick="app.openScheduleModal()"><i class="fa-solid fa-calendar-plus"></i> Schedule New Session</button>
+            </div>
+            <div class="sessions-container" id="sessionsListContainer"></div>
+        </section>
+
+        <!-- TAB 6: PROFILE -->
+        <section id="tab-profile" class="tab-pane">
+            <div class="profile-layout">
+                <div class="profile-sidebar card">
+                    <div class="profile-avatar-wrapper">
+                        <img id="profileAvatar" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=180" alt="Student" class="avatar-lg">
+                        <div class="profile-rating-badge"><i class="fa-solid fa-star"></i> <span id="profileRatingVal">4.9</span></div>
+                    </div>
+                    <h2 id="profileName">Alex Morgan</h2>
+                    <p class="text-muted" id="profileDeptYear">Computer Science • 3rd Year</p>
+                    <p class="profile-bio" id="profileBio">Backend enthusiast who loves building robust APIs with Java and Spring Boot.</p>
+                    <div class="profile-contact-box">
+                        <span class="label">Contact & Handle</span>
+                        <div class="contact-value" id="profileContact">alex@college.edu</div>
+                    </div>
+                    <div class="profile-stats">
+                        <div class="p-stat">
+                            <span class="p-num" id="profileTaughtCount">2</span>
+                            <span class="p-label">Skills Taught</span>
+                        </div>
+                        <div class="p-stat">
+                            <span class="p-num" id="profileLearnCount">2</span>
+                            <span class="p-label">Learning Goals</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="profile-main">
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h3>Edit Profile Information</h3>
+                        </div>
+                        <div class="card-body">
+                            <form id="editProfileForm" onsubmit="app.handleUpdateProfile(event)">
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>Full Name</label>
+                                        <input type="text" id="editName" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Email Address</label>
+                                        <input type="email" id="editEmail" readonly disabled>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>Department / Major</label>
+                                        <input type="text" id="editDepartment" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Academic Year</label>
+                                        <select id="editCollegeYear">
+                                            <option value="1st Year">1st Year</option>
+                                            <option value="2nd Year">2nd Year</option>
+                                            <option value="3rd Year">3rd Year</option>
+                                            <option value="4th Year">4th Year</option>
+                                            <option value="Postgraduate / Masters">Postgraduate / Masters</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Bio & Learning Interest</label>
+                                    <textarea id="editBio" rows="3"></textarea>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>Contact Info (Discord / Telegram / Phone)</label>
+                                        <input type="text" id="editContactInfo">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Avatar Image URL</label>
+                                        <input type="url" id="editAvatarUrl">
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i> Save Profile Changes</button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>My Skills & Competencies</h3>
+                            <div class="header-btns">
+                                <button class="btn btn-sm btn-primary" onclick="app.openAddSkillModal('TEACH')"><i class="fa-solid fa-plus"></i> Add Teaching Skill</button>
+                                <button class="btn btn-sm btn-secondary" onclick="app.openAddSkillModal('LEARN')"><i class="fa-solid fa-plus"></i> Add Learning Goal</button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Skill</th>
+                                        <th>Category</th>
+                                        <th>Role</th>
+                                        <th>Proficiency</th>
+                                        <th>Description</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="mySkillsTableBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modals -->
+    <div class="modal" id="modalSendRequest">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fa-solid fa-paper-plane"></i> Send Learning Exchange Request</h3>
+                <button class="close-btn" onclick="app.closeModal('modalSendRequest')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="sendRequestForm" onsubmit="app.handleSendRequest(event)">
+                    <input type="hidden" id="reqReceiverId">
+                    <input type="hidden" id="reqSkillId">
+                    <div class="peer-target-preview" id="reqPeerPreview"></div>
+                    <div class="form-group">
+                        <label>What skill will you teach in exchange?</label>
+                        <select id="reqOfferedSkillSelect">
+                            <option value="">-- No specific skill offered (One-way tutoring) --</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Message / What do you want to learn?</label>
+                        <textarea id="reqMessage" rows="3" placeholder="Hi! I saw you are skilled in this..." required></textarea>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline" onclick="app.closeModal('modalSendRequest')">Cancel</button>
+                        <button type="submit" class="btn btn-primary"><i class="fa-solid fa-paper-plane"></i> Send Request</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="modalAddSkill">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalAddSkillTitle"><i class="fa-solid fa-plus-circle"></i> Add Skill</h3>
+                <button class="close-btn" onclick="app.closeModal('modalAddSkill')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="addSkillForm" onsubmit="app.handleAddSkill(event)">
+                    <div class="form-group">
+                        <label>Skill Type</label>
+                        <select id="newSkillType">
+                            <option value="TEACH">I can TEACH this skill to others</option>
+                            <option value="LEARN">I want to LEARN this skill from others</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Skill Name</label>
+                        <input type="text" id="newSkillName" placeholder="Enter skill title..." required list="existingSkillsList">
+                        <datalist id="existingSkillsList"></datalist>
+                    </div>
+                    <div class="form-group">
+                        <label>Category</label>
+                        <select id="newSkillCategory">
+                            <option value="Programming">Programming & Software</option>
+                            <option value="Web Development">Web Development</option>
+                            <option value="Design">Design & UI/UX</option>
+                            <option value="AI & Data Science">AI & Data Science</option>
+                            <option value="Soft Skills">Soft Skills & Public Speaking</option>
+                            <option value="Academics">Academics & Mathematics</option>
+                            <option value="Creative">Creative, Media & Arts</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Proficiency Level</label>
+                        <select id="newSkillProficiency">
+                            <option value="BEGINNER">Beginner</option>
+                            <option value="INTERMEDIATE" selected>Intermediate</option>
+                            <option value="ADVANCED">Advanced</option>
+                            <option value="EXPERT">Expert</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Description</label>
+                        <textarea id="newSkillDesc" rows="2" placeholder="e.g. 2 years experience with Spring Boot..."></textarea>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline" onclick="app.closeModal('modalAddSkill')">Cancel</button>
+                        <button type="submit" class="btn btn-primary"><i class="fa-solid fa-check"></i> Save Skill</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="modalScheduleSession">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fa-solid fa-calendar-plus"></i> Schedule Learning Session</h3>
+                <button class="close-btn" onclick="app.closeModal('modalScheduleSession')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="scheduleSessionForm" onsubmit="app.handleScheduleSession(event)">
+                    <input type="hidden" id="schedRequestId">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Teacher (Host)</label>
+                            <select id="schedTeacherSelect" required></select>
+                        </div>
+                        <div class="form-group">
+                            <label>Learner (Attendee)</label>
+                            <select id="schedLearnerSelect" required></select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Session Topic / Skill</label>
+                        <input type="text" id="schedSkillName" placeholder="e.g. Spring Boot REST APIs hands-on" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Date & Time</label>
+                            <input type="datetime-local" id="schedTime" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Duration</label>
+                            <select id="schedDuration">
+                                <option value="30">30 Minutes</option>
+                                <option value="45">45 Minutes</option>
+                                <option value="60" selected>60 Minutes (1 Hour)</option>
+                                <option value="90">90 Minutes</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Meeting Format</label>
+                            <select id="schedMeetingType" onchange="app.toggleMeetingFormat()">
+                                <option value="ONLINE">Online (Virtual Meeting)</option>
+                                <option value="IN_PERSON">In-Person (Campus Location)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label id="schedLocationLabel">Meeting Link</label>
+                            <input type="text" id="schedLocation" value="https://meet.google.com/sb-skill-exchange" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Notes</label>
+                        <textarea id="schedNotes" rows="2" placeholder="e.g. Bring your laptop and questions..."></textarea>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline" onclick="app.closeModal('modalScheduleSession')">Cancel</button>
+                        <button type="submit" class="btn btn-primary"><i class="fa-solid fa-calendar-check"></i> Confirm Session</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="modalCompleteSession">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fa-solid fa-star"></i> Complete Session & Feedback</h3>
+                <button class="close-btn" onclick="app.closeModal('modalCompleteSession')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="completeSessionForm" onsubmit="app.handleCompleteSession(event)">
+                    <input type="hidden" id="completeSessionId">
+                    <p class="subtitle" id="completeSessionTitle">Leave a review for your peer teacher</p>
+                    <div class="form-group text-center">
+                        <label>Rating</label>
+                        <div class="star-rating-input">
+                            <input type="radio" id="star5" name="rating" value="5" checked><label for="star5"><i class="fa-solid fa-star"></i></label>
+                            <input type="radio" id="star4" name="rating" value="4"><label for="star4"><i class="fa-solid fa-star"></i></label>
+                            <input type="radio" id="star3" name="rating" value="3"><label for="star3"><i class="fa-solid fa-star"></i></label>
+                            <input type="radio" id="star2" name="rating" value="2"><label for="star2"><i class="fa-solid fa-star"></i></label>
+                            <input type="radio" id="star1" name="rating" value="1"><label for="star1"><i class="fa-solid fa-star"></i></label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Review & Feedback</label>
+                        <textarea id="completeComments" rows="3" placeholder="How was the session?" required></textarea>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline" onclick="app.closeModal('modalCompleteSession')">Cancel</button>
+                        <button type="submit" class="btn btn-primary"><i class="fa-solid fa-check-double"></i> Submit Review</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="modalAuth">
+        <div class="modal-content auth-modal">
+            <div class="modal-header">
+                <h3><i class="fa-solid fa-user-lock"></i> Student Account Access</h3>
+                <button class="close-btn" onclick="app.closeModal('modalAuth')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="auth-tabs">
+                    <button class="auth-tab active" id="tabAuthLogin" onclick="app.switchAuthMode('login')">Sign In</button>
+                    <button class="auth-tab" id="tabAuthRegister" onclick="app.switchAuthMode('register')">Register New Student</button>
+                </div>
+                <form id="loginForm" onsubmit="app.handleLogin(event)">
+                    <div class="form-group">
+                        <label>Email Address</label>
+                        <input type="email" id="loginEmail" placeholder="student@college.edu" required value="alex@college.edu">
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" id="loginPassword" required value="alex123">
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block"><i class="fa-solid fa-arrow-right-to-bracket"></i> Sign In</button>
+                </form>
+                <form id="registerForm" style="display:none;" onsubmit="app.handleRegister(event)">
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" id="regName" placeholder="e.g. Samantha Hayes" required>
+                    </div>
+                    <div class="form-group">
+                        <label>College Email</label>
+                        <input type="email" id="regEmail" placeholder="e.g. samantha@college.edu" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" id="regPassword" placeholder="Choose a password" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Department</label>
+                            <input type="text" id="regDept" placeholder="e.g. Information Technology" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Year</label>
+                            <select id="regYear">
+                                <option value="1st Year">1st Year</option>
+                                <option value="2nd Year">2nd Year</option>
+                                <option value="3rd Year" selected>3rd Year</option>
+                                <option value="4th Year">4th Year</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Bio & Interests</label>
+                        <textarea id="regBio" rows="2" placeholder="Tell peers what you love doing..."></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block"><i class="fa-solid fa-user-plus"></i> Create Account</button>
+                </form>
+                <div class="demo-quick-pick">
+                    <span class="quick-title">Quick Demo Logins (Viva Mode):</span>
+                    <div class="quick-btns" id="authQuickButtons"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="toastContainer" class="toast-container"></div>
+    <script src="js/app.js"></script>
+</body>
+</html>

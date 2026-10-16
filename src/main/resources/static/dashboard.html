@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - SkillBridge</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="dashboard.html" class="brand-logo">
+                <div class="brand-icon">⚡</div>
+                <span>SkillBridge</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="dashboard.html" class="active">Dashboard</a></li>
+                <li><a href="explore.html">Explore Skills</a></li>
+                <li><a href="requests.html">Requests</a></li>
+                <li><a href="sessions.html">Sessions</a></li>
+                <li><a href="profile.html">My Profile</a></li>
+            </ul>
+            <div id="nav-user-area" class="nav-user"></div>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="page-header">
+            <div>
+                <h1 id="dashboard-greeting" class="page-title">Welcome, Student!</h1>
+                <p class="page-subtitle">Your peer-to-peer skill exchange hub overview</p>
+            </div>
+            <div style="display:flex;gap:0.75rem;">
+                <a href="profile.html" class="btn btn-secondary btn-sm">+ Add Skills</a>
+                <a href="explore.html" class="btn btn-primary btn-sm">Find Matches</a>
+            </div>
+        </div>
+
+        <!-- 5 Key Metrics Cards -->
+        <div class="grid grid-cols-4" style="margin-bottom:2rem;">
+            <div class="stat-card">
+                <div class="stat-icon green">🎓</div>
+                <div>
+                    <div id="stat-teach-count" class="stat-value">0</div>
+                    <div class="stat-label">Skills You Teach</div>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon blue">🎯</div>
+                <div>
+                    <div id="stat-learn-count" class="stat-value">0</div>
+                    <div class="stat-label">Skills To Learn</div>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon purple">✨</div>
+                <div>
+                    <div id="stat-matches-count" class="stat-value">0</div>
+                    <div class="stat-label">Peer Matches</div>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon amber">📬</div>
+                <div>
+                    <div id="stat-requests-count" class="stat-value">0</div>
+                    <div class="stat-label">Pending Requests</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Two Columns: Upcoming Sessions & Match Recommendations -->
+        <div class="grid grid-cols-2" style="margin-bottom:2rem;">
+            <!-- Upcoming Sessions -->
+            <div class="card">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;">
+                    <h2 style="font-size:1.15rem;font-weight:700;">📅 Upcoming Sessions</h2>
+                    <a href="sessions.html" style="font-size:0.85rem;font-weight:600;">View All</a>
+                </div>
+                <div id="dashboard-upcoming-sessions">
+                    <p style="color:var(--text-muted);font-size:0.9rem;">Loading sessions...</p>
+                </div>
+            </div>
+
+            <!-- Recommended Mutual Exchanges -->
+            <div class="card">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;">
+                    <h2 style="font-size:1.15rem;font-weight:700;">🤝 Recommended Exchanges</h2>
+                    <a href="explore.html" style="font-size:0.85rem;font-weight:600;">Explore</a>
+                </div>
+                <div id="dashboard-matches-preview">
+                    <p style="color:var(--text-muted);font-size:0.9rem;">Loading peer matches...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Info Banner -->
+        <div class="card" style="background:linear-gradient(135deg, #eef2ff, #f8fafc);border-color:#c7d2fe;">
+            <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;">
+                <div>
+                    <h3 style="font-size:1.05rem;font-weight:700;color:var(--primary);margin-bottom:0.25rem;">
+                        💡 Pro-Tip for Better Matching
+                    </h3>
+                    <p style="font-size:0.88rem;color:var(--text-secondary);">
+                        Add at least 2 skills you can teach and 2 skills you want to learn. The platform will automatically connect you with students who want what you offer!
+                    </p>
+                </div>
+                <a href="profile.html" class="btn btn-primary btn-sm">Update My Profile</a>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>SkillBridge &copy; 2026 &bull; Student Skill Exchange Platform</p>
+    </footer>
+
+    <script src="js/api.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+</html>

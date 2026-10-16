@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - SkillBridge</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body style="background: linear-gradient(135deg, #eef2ff 0%, #f8fafc 100%);">
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="brand-logo">
+                <div class="brand-icon">⚡</div>
+                <span>SkillBridge</span>
+            </a>
+            <div id="nav-user-area" class="nav-user"></div>
+        </div>
+    </nav>
+
+    <main class="main-content" style="display:flex;align-items:center;justify-content:center;padding:2.5rem 1.5rem;">
+        <div class="card" style="max-width: 580px; width: 100%; padding: 2.25rem;">
+            <div style="text-align:center;margin-bottom:1.75rem;">
+                <h2 style="font-size:1.6rem;font-weight:700;">Join SkillBridge</h2>
+                <p style="font-size:0.88rem;color:var(--text-secondary);">Create your student profile and start exchanging skills</p>
+            </div>
+
+            <form id="register-form">
+                <div class="grid grid-cols-2" style="gap:1rem;margin-bottom:1rem;">
+                    <div>
+                        <label class="form-label" for="name">Full Name *</label>
+                        <input type="text" id="name" class="form-control" placeholder="e.g. John Doe" required>
+                    </div>
+                    <div>
+                        <label class="form-label" for="email">College Email *</label>
+                        <input type="email" id="email" class="form-control" placeholder="john@college.edu" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="password">Password *</label>
+                    <input type="password" id="password" class="form-control" placeholder="Create a password" required minlength="6">
+                </div>
+
+                <div class="grid grid-cols-2" style="gap:1rem;margin-bottom:1rem;">
+                    <div>
+                        <label class="form-label" for="college">College / University</label>
+                        <input type="text" id="college" class="form-control" placeholder="e.g. National Institute of Tech">
+                    </div>
+                    <div>
+                        <label class="form-label" for="department">Department / Major</label>
+                        <input type="text" id="department" class="form-control" placeholder="e.g. Computer Science">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2" style="gap:1rem;margin-bottom:1rem;">
+                    <div>
+                        <label class="form-label" for="yearOfStudy">Year of Study</label>
+                        <select id="yearOfStudy" class="form-control">
+                            <option value="1st Year">1st Year</option>
+                            <option value="2nd Year" selected>2nd Year</option>
+                            <option value="3rd Year">3rd Year</option>
+                            <option value="4th Year">4th Year</option>
+                            <option value="Postgraduate">Postgraduate</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="form-label" for="contactInfo">Contact / Discord / LinkedIn</label>
+                        <input type="text" id="contactInfo" class="form-control" placeholder="@username or phone">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="bio">Bio & Learning Philosophy</label>
+                    <textarea id="bio" class="form-control" rows="2" placeholder="Tell peers what you love building and what skills inspire you..."></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="width:100%;margin-top:0.5rem;padding:0.75rem;">
+                    Create Account
+                </button>
+            </form>
+
+            <div style="text-align:center;margin-top:1.25rem;font-size:0.88rem;color:var(--text-secondary);">
+                Already have an account? <a href="login.html" style="font-weight:600;">Sign in here</a>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>SkillBridge &copy; 2026 &bull; Student Skill Exchange Platform</p>
+    </footer>
+
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+</body>
+</html>

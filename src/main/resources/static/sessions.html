@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learning Sessions - SkillBridge</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="dashboard.html" class="brand-logo">
+                <div class="brand-icon">⚡</div>
+                <span>SkillBridge</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="explore.html">Explore Skills</a></li>
+                <li><a href="requests.html">Requests</a></li>
+                <li><a href="sessions.html" class="active">Sessions</a></li>
+                <li><a href="profile.html">My Profile</a></li>
+            </ul>
+            <div id="nav-user-area" class="nav-user"></div>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="page-header">
+            <div>
+                <h1 class="page-title">Peer Learning Sessions</h1>
+                <p class="page-subtitle">Track scheduled exchange sessions, join video links, and review completed activities</p>
+            </div>
+            <a href="requests.html" class="btn btn-secondary btn-sm">View Requests</a>
+        </div>
+
+        <!-- Filter Tabs -->
+        <div class="tabs">
+            <button id="tab-all" class="tab-btn active" onclick="filterSessions('ALL')">
+                All Sessions
+            </button>
+            <button id="tab-scheduled" class="tab-btn" onclick="filterSessions('SCHEDULED')">
+                🕒 Scheduled & Upcoming
+            </button>
+            <button id="tab-completed" class="tab-btn" onclick="filterSessions('COMPLETED')">
+                ✅ Completed History
+            </button>
+        </div>
+
+        <!-- Sessions List -->
+        <div id="sessions-list">
+            <!-- Populated by sessions.js -->
+        </div>
+    </main>
+
+    <footer>
+        <p>SkillBridge &copy; 2026 &bull; Student Skill Exchange Platform</p>
+    </footer>
+
+    <script src="js/api.js"></script>
+    <script src="js/sessions.js"></script>
+</body>
+</html>
